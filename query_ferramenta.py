@@ -47,13 +47,23 @@ def buscar_por_projeto(nome_projeto):
 def autenticar(usuario, senha):
     return usuario == USUARIO_CORRETO and senha == SENHA_CORRETA
 
-# Função para destacar operadores booleanos
+# Função para destacar operadores booleanos e checar parênteses
 def destacar_operadores(texto):
     texto = re.sub(r'\bOR\b', '<span style="color:green;font-weight:bold">OR</span>', texto)
     texto = re.sub(r'\bAND\b', '<span style="color:blue;font-weight:bold">AND</span>', texto)
     texto = re.sub(r'\bNEAR/\d+\b', lambda m: f'<span style="color:orange;font-weight:bold">{m.group()}</span>', texto)
     texto = re.sub(r'\bNOT\b', '<span style="color:red;font-weight:bold">NOT</span>', texto)
     return texto
+
+def checar_parenteses(texto):
+    abertura = texto.count('(')
+    fechamento = texto.count(')')
+    if abertura > fechamento:
+        return f"⚠️ Faltam {abertura - fechamento} parêntese(s) de fechamento.", "#fff3cd"
+    elif fechamento > abertura:
+        return f"⚠️ Faltam {fechamento - abertura} parêntese(s) de abertura.", "#fff3cd"
+    else:
+        return "✓ Parênteses balanceados.", "#d4edda"
 
 # Configuração da página
 st.set_page_config(page_title="Registro de Regras Linguísticas", layout="wide")
@@ -88,12 +98,14 @@ with abas[0]:
         titulo_regra = st.text_input("Título da regra")
     with col2:
         regra = st.text_area("Regra linguística aplicada")
-        ferramenta = st.radio("Ferramenta utilizada", ["ELK", "FPK", "YT", "BW", "Outro"])
+        ferramenta = st.radio("Ferramenta utilizada", ["ELK", "FPK", "YT", "BW"])
 
-    # Mostrar regra destacada com operadores coloridos
     if regra:
-        st.markdown("**Visualização com operadores destacados:**", unsafe_allow_html=True)
+        st.markdown("**Visualização da regra com operadores destacados (campo 'Regra linguística aplicada'):**", unsafe_allow_html=True)
         st.markdown(f"<div style='padding:10px;border:1px solid #ddd;border-radius:5px'>{destacar_operadores(regra)}</div>", unsafe_allow_html=True)
+
+        alerta_parenteses, cor = checar_parenteses(regra)
+        st.markdown(f"<div style='background-color:{cor};padding:10px;border-radius:5px'>{alerta_parenteses}</div>", unsafe_allow_html=True)
 
     data = st.text_input("Data do registro (opcional)", placeholder="AAAA-MM-DD")
 
