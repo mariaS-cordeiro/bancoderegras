@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import os
 from datetime import datetime
+import re
 
 # Usuário e senha fixos
 USUARIO_CORRETO = "dapplab@ling"
@@ -46,6 +47,14 @@ def buscar_por_projeto(nome_projeto):
 def autenticar(usuario, senha):
     return usuario == USUARIO_CORRETO and senha == SENHA_CORRETA
 
+# Função para destacar operadores booleanos
+def destacar_operadores(texto):
+    texto = re.sub(r'\\bOR\\b', '<span style="color:green;font-weight:bold">OR</span>', texto)
+    texto = re.sub(r'\\bAND\\b', '<span style="color:blue;font-weight:bold">AND</span>', texto)
+    texto = re.sub(r'\\bNEAR\\/\\d+\\b', lambda m: f'<span style="color:orange;font-weight:bold">{m.group()}</span>', texto)
+    texto = re.sub(r'\\bNOT\\b', '<span style="color:red;font-weight:bold">NOT</span>', texto)
+    return texto
+
 # Configuração da página
 st.set_page_config(page_title="Registro de Regras Linguísticas", layout="wide")
 st.title("📚 Ferramenta de Registro de Regras Linguísticas")
@@ -65,7 +74,7 @@ if not st.session_state.autenticado:
             st.success("Login realizado com sucesso! Você agora pode acessar a ferramenta.")
         else:
             st.error("Usuário ou senha incorretos.")
-    st.stop()  # impede que o restante da interface seja exibido se não autenticado
+    st.stop()
 
 # Interface após login
 abas = st.tabs(["Cadastrar nova entrada", "Buscar por projeto"])
@@ -80,6 +89,11 @@ with abas[0]:
     with col2:
         regra = st.text_area("Regra linguística aplicada")
         ferramenta = st.radio("Ferramenta utilizada", ["ELK", "FPK", "YT", "BW"])
+
+    # Mostrar regra destacada com operadores coloridos
+    if regra:
+        st.markdown("**Visualização com operadores destacados:**", unsafe_allow_html=True)
+        st.markdown(destacar_operadores(regra), unsafe_allow_html=True)
 
     data = st.text_input("Data do registro (opcional)", placeholder="AAAA-MM-DD")
 
