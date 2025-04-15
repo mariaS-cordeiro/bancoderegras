@@ -43,17 +43,18 @@ def buscar_por_projeto(nome_projeto):
     return df_filtro
 
 # Função de login
-@st.cache_resource
 def autenticar(usuario, senha):
     return usuario == USUARIO_CORRETO and senha == SENHA_CORRETA
 
-# Interface Streamlit
+# Configuração da página
 st.set_page_config(page_title="Registro de Regras Linguísticas", layout="wide")
 st.title("📚 Ferramenta de Registro de Regras Linguísticas")
 
+# Controle de sessão
 if "autenticado" not in st.session_state:
     st.session_state.autenticado = False
 
+# Tela de login
 if not st.session_state.autenticado:
     st.subheader("🔐 Acesso restrito")
     usuario = st.text_input("Usuário")
@@ -61,7 +62,8 @@ if not st.session_state.autenticado:
     if st.button("Entrar"):
         if autenticar(usuario, senha):
             st.session_state.autenticado = True
-            st.experimental_rerun()
+            st.success("Login realizado com sucesso!")
+            st.stop()
         else:
             st.error("Usuário ou senha incorretos.")
 else:
