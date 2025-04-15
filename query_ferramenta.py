@@ -87,7 +87,7 @@ if not st.session_state.autenticado:
     st.stop()
 
 # Interface após login
-abas = st.tabs(["Cadastrar nova entrada", "Buscar por projeto"])
+abas = st.tabs(["Cadastrar nova entrada", "Buscar por regra linguística"])
 
 with abas[0]:
     st.subheader("Cadastrar nova entrada")
@@ -116,8 +116,8 @@ with abas[0]:
             st.warning("Preencha todos os campos obrigatórios.")
 
 with abas[1]:
-    st.subheader("Buscar por projeto")
-    nome_projeto = st.text_input("Digite o nome do projeto para buscar")
+    st.subheader("Buscar por regra linguística")
+    nome_projeto = st.text_input("Digite o nome da regra ou projeto para buscar")
 
     if st.button("Buscar"):
         resultado = buscar_por_projeto(nome_projeto)
