@@ -62,39 +62,40 @@ if not st.session_state.autenticado:
     if st.button("Entrar"):
         if autenticar(usuario, senha):
             st.session_state.autenticado = True
-            st.success("Login realizado com sucesso!")
-            st.stop()
+            st.success("Login realizado com sucesso! Você agora pode acessar a ferramenta.")
         else:
             st.error("Usuário ou senha incorretos.")
-else:
-    abas = st.tabs(["Cadastrar nova entrada", "Buscar por projeto"])
+    st.stop()  # impede que o restante da interface seja exibido se não autenticado
 
-    with abas[0]:
-        st.subheader("Cadastrar nova entrada")
-        col1, col2 = st.columns(2)
-        with col1:
-            projeto = st.text_input("Nome do projeto")
-            analista = st.text_input("Analista responsável")
-            titulo_regra = st.text_input("Título da regra")
-        with col2:
-            regra = st.text_area("Regra linguística aplicada")
-            ferramenta = st.radio("Ferramenta utilizada", ["ELK", "FPK", "YT", "BW"])
+# Interface após login
+abas = st.tabs(["Cadastrar nova entrada", "Buscar por projeto"])
 
-        data = st.text_input("Data do registro (opcional)", placeholder="AAAA-MM-DD")
+with abas[0]:
+    st.subheader("Cadastrar nova entrada")
+    col1, col2 = st.columns(2)
+    with col1:
+        projeto = st.text_input("Nome do projeto")
+        analista = st.text_input("Analista responsável")
+        titulo_regra = st.text_input("Título da regra")
+    with col2:
+        regra = st.text_area("Regra linguística aplicada")
+        ferramenta = st.radio("Ferramenta utilizada", ["ELK", "FPK", "YT", "BW"])
 
-        if st.button("Salvar entrada"):
-            if projeto and analista and titulo_regra and regra:
-                salvar_csv(projeto, analista, titulo_regra, regra, ferramenta, data)
-            else:
-                st.warning("Preencha todos os campos obrigatórios.")
+    data = st.text_input("Data do registro (opcional)", placeholder="AAAA-MM-DD")
 
-    with abas[1]:
-        st.subheader("Buscar por projeto")
-        nome_projeto = st.text_input("Digite o nome do projeto para buscar")
+    if st.button("Salvar entrada"):
+        if projeto and analista and titulo_regra and regra:
+            salvar_csv(projeto, analista, titulo_regra, regra, ferramenta, data)
+        else:
+            st.warning("Preencha todos os campos obrigatórios.")
 
-        if st.button("Buscar"):
-            resultado = buscar_por_projeto(nome_projeto)
-            if isinstance(resultado, str):
-                st.info(resultado)
-            else:
-                st.dataframe(resultado, use_container_width=True)
+with abas[1]:
+    st.subheader("Buscar por projeto")
+    nome_projeto = st.text_input("Digite o nome do projeto para buscar")
+
+    if st.button("Buscar"):
+        resultado = buscar_por_projeto(nome_projeto)
+        if isinstance(resultado, str):
+            st.info(resultado)
+        else:
+            st.dataframe(resultado, use_container_width=True)
