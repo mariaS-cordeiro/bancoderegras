@@ -49,6 +49,7 @@ with abas[0]:
     with col1:
         projeto = st.text_input("Nome do projeto")
         analista = st.text_input("Analista responsável")
+        título da regra = st.text_input("Título da regra")
     with col2:
         regra = st.text_area("Regra linguística aplicada")
         ferramenta = st.radio("Ferramenta utilizada", ["ELK", "FPK", "YT", "BW"])
