@@ -3,9 +3,9 @@ import pandas as pd
 import os
 from datetime import datetime
 
-# Usuário e senha fixos (poderia vir de base externa)
-USUARIO_CORRETO = "admin"
-SENHA_CORRETA = "1234"
+# Usuário e senha fixos
+USUARIO_CORRETO = "dapplab@ling"
+SENHA_CORRETA = "1.2.3.4"
 
 # Caminho do arquivo CSV
 csv_path = "queries_linguisticas.csv"
@@ -65,7 +65,7 @@ if not st.session_state.autenticado:
         else:
             st.error("Usuário ou senha incorretos.")
 else:
-    abas = st.tabs(["Cadastrar nova entrada", "Buscar por regra"])
+    abas = st.tabs(["Cadastrar nova entrada", "Buscar por projeto"])
 
     with abas[0]:
         st.subheader("Cadastrar nova entrada")
@@ -76,7 +76,7 @@ else:
             titulo_regra = st.text_input("Título da regra")
         with col2:
             regra = st.text_area("Regra linguística aplicada")
-            ferramenta = st.radio("Ferramenta utilizada", ["ELK", "FPK", "YT", "BW", "Outro"])
+            ferramenta = st.radio("Ferramenta utilizada", ["ELK", "FPK", "YT", "BW"])
 
         data = st.text_input("Data do registro (opcional)", placeholder="AAAA-MM-DD")
 
