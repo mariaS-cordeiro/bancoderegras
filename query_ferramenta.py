@@ -59,8 +59,7 @@ def checar_parenteses(texto):
 # Configuração da página
 st.set_page_config(page_title="Banco de dados de regras linguísticas", layout="wide")
 st.markdown("""
-<h1 style='font-family: "Proxima Nova", sans-serif; color: white; text-align: center; margin-top: 2rem;'>📚 Banco de dados de regras linguísticas</h1>
-""", unsafe_allow_html=True)
+<h1 style='font-family: \"Proxima Nova\", sans-serif; color: white; text-align: center; margin-top: 2rem;'>📚 Banco de dados de regras linguísticas</h1>
 """, unsafe_allow_html=True)
 
 # Controle de sessão
