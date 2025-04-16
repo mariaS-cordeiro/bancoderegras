@@ -211,10 +211,10 @@ with abas[1]:
                             <strong style='color: #00ffff;'>Regra salva:</strong><br><br>
                             <code style='color: white; display: block; white-space: pre-wrap;'>{}</code>
                         </div>
-                    """.format(row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace('
-', '<br>')), unsafe_allow_html=True)
-                    regra_formatada = row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace('
-', '<br>')
+                    """.format(row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace("
+", "<br>")), unsafe_allow_html=True)
+                    regra_formatada = row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace("
+", "<br>")
                     st.markdown(f"""
 <div style='background-color: #1e1e1e; border-left: 4px solid #3399ff; border-right: 4px solid #3399ff; padding: 15px; border-radius: 8px; margin-bottom: 10px; font-family: \"Proxima Nova\", sans-serif;'>
                             <strong style='color: #00ffff;'>Elaboração de regras linguística:</strong><br><br>
