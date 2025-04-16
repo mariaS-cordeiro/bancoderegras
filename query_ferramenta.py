@@ -239,4 +239,3 @@ with abas[1]:
             st.markdown(f"- [📄 Baixar bloco de notas]({bloco_nota_link})")
             st.markdown(f"- [📝 Criar novo Google Docs com esse título]({google_docs_link})")
             st.markdown(f"- [☁️ Abrir OneDrive para colar]({onedrive_link})")
-
