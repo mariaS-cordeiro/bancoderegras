@@ -130,29 +130,11 @@ with abas[1]:
                     st.markdown(f"**Analista:** {row['Analista']} | **Ferramenta:** {row['Ferramenta']} | **Data:** {row['Data']}")
                     st.markdown("**Abrir em:**")
 
-                    conteudo_encoded = row['Regra'].replace(' ', '%20').replace('
-', '%0A')
+                    conteudo_encoded = row['Regra'].replace(' ', '%20').replace('\n', '%0A')
                     bloco_nota_link = f"data:text/plain,{conteudo_encoded}"
                     google_docs_link = f"https://docs.google.com/document/create?title={row['Título da Regra'].replace(' ', '%20')}"
                     onedrive_link = "https://onedrive.live.com/edit.aspx"
 
-                    st.markdown(f"- [📄 Baixar bloco de notas](\"{bloco_nota_link}\")")
+                    st.markdown(f"- [📄 Baixar bloco de notas]({bloco_nota_link})")
                     st.markdown(f"- [📝 Criar novo Google Docs com esse título]({google_docs_link})")
                     st.markdown(f"- [☁️ Abrir OneDrive para colar]({onedrive_link})")
-        resultado = buscar_por_projeto(nome_projeto)
-        if isinstance(resultado, str):
-            st.info(resultado)
-        else:
-            for idx, row in resultado.iterrows():
-                with st.expander(f"📄 {row['Título da Regra']} – {row['Projeto']}"):
-                    st.markdown(f"**Regra:** `{row['Regra']}`")
-                    st.markdown(f"**Analista:** {row['Analista']} | **Ferramenta:** {row['Ferramenta']} | **Data:** {row['Data']}")
-                    st.markdown("**Abrir em:**")
-                    st.markdown("- [Abrir no Notepad++ (local)](https://notepad-plus-plus.org/downloads/) _(requer instalação local)_")
-                    st.markdown("- [Criar cópia no Google Docs](https://docs.google.com/document/u/0/) _(colar manualmente)_")
-                    st.markdown("- [OneDrive (abrir e colar)](https://onedrive.live.com/edit.aspx) _(colar manualmente no arquivo)_")
-        resultado = buscar_por_projeto(nome_projeto)
-        if isinstance(resultado, str):
-            st.info(resultado)
-        else:
-            st.dataframe(resultado, use_container_width=True)
