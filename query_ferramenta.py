@@ -57,24 +57,49 @@ def checar_parenteses(texto):
         return "✓ Parênteses balanceados.", "#d4edda"
 
 # Configuração da página
-st.set_page_config(page_title="Registro de Regras Linguísticas", layout="wide")
-st.title("📚 Ferramenta de Registro de Regras Linguísticas")
+st.set_page_config(page_title="Banco de dados de regras linguísticas", layout="wide")
+st.markdown("""
+    <h1 style='font-family: "Proxima Nova", sans-serif; color: white;'>📚 Banco de dados de regras linguísticas</h1>
+""", unsafe_allow_html=True)
 
 # Controle de sessão
 if "autenticado" not in st.session_state:
     st.session_state.autenticado = False
 
 if not st.session_state.autenticado:
-    st.subheader("🔐 Acesso restrito")
-    usuario = st.text_input("Usuário")
-    senha = st.text_input("Senha", type="password")
-    if st.button("Entrar"):
+    st.markdown("""
+        <style>
+            body {
+                background-color: black;
+                color: white;
+                font-family: 'Proxima Nova', sans-serif;
+            }
+            textarea, input, .stButton > button {
+                font-size: 16px;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+    st.markdown("<h2 style='font-family: Proxima Nova; color: white;'>🔐 Acesso restrito</h2>", unsafe_allow_html=True)
+    usuario = st.text_input("Usuário", key="usuario")
+    senha = st.text_input("Senha", type="password", key="senha")
+    if st.session_state.get("usuario") and st.session_state.get("senha") and st.session_state.get("ctrl_enter_triggered", False):
         if usuario == USUARIO_CORRETO and senha == SENHA_CORRETA:
             st.session_state.autenticado = True
             st.success("Login realizado com sucesso!")
         else:
             st.error("Usuário ou senha incorretos.")
     st.stop()
+
+# Captura Ctrl+Enter para login automático
+st.markdown("""
+<script>
+    document.addEventListener("keydown", function(e) {
+        if (e.ctrlKey && e.key === "Enter") {
+            window.parent.postMessage({isStreamlitMessage: true, type: 'streamlit:setComponentValue', key: 'ctrl_enter_triggered', value: true}, '*');
+        }
+    });
+</script>
+""", unsafe_allow_html=True)
 
 # Interface principal
 st.download_button(
@@ -84,17 +109,17 @@ st.download_button(
     mime="text/csv"
 )
 
-abas = st.tabs(["Cadastrar nova entrada", "Buscar por regra linguística"])
+abas = st.tabs(["Cadastrar nova regra linguística", "Buscar por regra linguística"])
 
 with abas[0]:
-    st.subheader("Cadastrar nova entrada")
+    st.subheader("Cadastrar nova regra linguística")
     col1, col2 = st.columns(2)
     with col1:
         projeto = st.text_input("Nome do projeto")
         analista = st.text_input("Analista responsável")
         titulo_regra = st.text_input("Título da regra")
     with col2:
-        regra = st.text_area("Regra linguística aplicada")
+        regra = st.text_area("Elaboração de regras linguística", height=200)
         ferramenta = st.radio("Ferramenta utilizada", ["ELK", "FPK", "YT", "BW", "Outra"])
 
     if regra:
