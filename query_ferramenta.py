@@ -199,10 +199,8 @@ with abas[1]:
     st.subheader("Buscar por regra linguística")
     nome_projeto = st.text_input("Digite o nome da regra ou projeto para buscar")
 
-    if nome_projeto:
+    if st.button("Buscar"):
         resultado = buscar_por_projeto(nome_projeto)
-    else:
-        resultado = pd.read_csv(csv_path)
         if isinstance(resultado, str):
             st.info(resultado)
         else:
