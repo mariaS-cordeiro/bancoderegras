@@ -59,7 +59,8 @@ def checar_parenteses(texto):
 # Configuração da página
 st.set_page_config(page_title="Banco de dados de regras linguísticas", layout="wide")
 st.markdown("""
-    <h1 style='font-family: "Proxima Nova", sans-serif; color: white;'>📚 Banco de dados de regras linguísticas</h1>
+    <h1 style='font-family: "Proxima Nova", sans-serif; color: white; text-align: center; margin-top: 2rem;'>📚 Banco de dados de regras linguísticas</h1>
+""", unsafe_allow_html=True)
 """, unsafe_allow_html=True)
 
 # Controle de sessão
@@ -68,20 +69,26 @@ if "autenticado" not in st.session_state:
 
 if not st.session_state.autenticado:
     st.markdown("""
+        <h1 style='font-family: "Proxima Nova", sans-serif; color: white;'>📚 Banco de dados de regras linguísticas</h1>
+    """, unsafe_allow_html=True)
+    st.markdown("""
         <style>
-            body {
-                background-color: black;
-                color: white;
-                font-family: 'Proxima Nova', sans-serif;
-            }
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Proxima Nova', sans-serif;
+            text-align: center;
+        }
             textarea, input, .stButton > button {
                 font-size: 16px;
             }
         </style>
     """, unsafe_allow_html=True)
     st.markdown("<h2 style='font-family: Proxima Nova; color: white;'>🔐 Acesso restrito</h2>", unsafe_allow_html=True)
-    usuario = st.text_input("Usuário", key="usuario")
-    senha = st.text_input("Senha", type="password", key="senha")
+    col_login = st.columns(2)[1]
+    with col_login:
+        usuario = st.text_input("Usuário", key="usuario")
+            senha = st.text_input("Senha", type="password", key="senha")
     if st.session_state.get("ctrl_enter_triggered", False):
         if st.session_state.usuario == USUARIO_CORRETO and st.session_state.senha == SENHA_CORRETA:
             st.session_state.autenticado = True
