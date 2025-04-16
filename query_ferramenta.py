@@ -106,11 +106,36 @@ with abas[0]:
         titulo_regra = st.text_input("Título da regra")
     with col2:
         regra = st.text_area("Regra linguística aplicada")
-        ferramenta = st.radio("Ferramenta utilizada", ["ELK", "FPK", "YT", "BW"])
+        ferramenta = st.radio("Ferramenta utilizada", ["ELK", "FPK", "YT", "BW", "Outra"])
 
     if regra:
-        st.markdown("**Visualização da regra com operadores destacados (campo 'Regra linguística aplicada'):**", unsafe_allow_html=True)
-        st.markdown(f"<div style='padding:10px;border:1px solid #ddd;border-radius:5px'>{destacar_operadores(regra)}</div>", unsafe_allow_html=True)
+    operadores_permitidos = {
+        "ELK": ["OR", "AND", "NOT"],
+        "FPK": ["OR", "AND", "NOT"],
+        "YT": ["|"],
+        "BW": ["OR", "AND", "NEAR/", "~", "NOT"],
+        "Outra": []
+    }
+
+    op_ativos = operadores_permitidos.get(ferramenta, [])
+    st.markdown("**Visualização da regra com operadores destacados (campo 'Regra linguística aplicada'):**", unsafe_allow_html=True)
+            if ferramenta != "Outra":
+        regra_destacada = regra
+        if "OR" in op_ativos:
+            regra_destacada = re.sub(r'\bOR\b', '<span style="color:green;font-weight:bold">OR</span>', regra_destacada)
+        if "AND" in op_ativos:
+            regra_destacada = re.sub(r'\bAND\b', '<span style="color:blue;font-weight:bold">AND</span>', regra_destacada)
+        if "NOT" in op_ativos:
+            regra_destacada = re.sub(r'\bNOT\b', '<span style="color:red;font-weight:bold">NOT</span>', regra_destacada)
+        if "NEAR/" in op_ativos:
+            regra_destacada = re.sub(r'\bNEAR/\d+\b', lambda m: f'<span style="color:orange;font-weight:bold">{m.group()}</span>', regra_destacada)
+        if "~" in op_ativos:
+            regra_destacada = regra_destacada.replace("~", '<span style="color:purple;font-weight:bold">~</span>')
+        if "|" in op_ativos:
+            regra_destacada = regra_destacada.replace("|", '<span style="color:green;font-weight:bold">|</span>')
+        st.markdown(f"<div style='padding:10px;border:1px solid #ddd;border-radius:5px'>{regra_destacada}</div>", unsafe_allow_html=True)
+    else:
+        st.markdown(f"<div style='padding:10px;border:1px solid #ddd;border-radius:5px'>{regra}</div>", unsafe_allow_html=True)
 
         alerta_parenteses, cor = checar_parenteses(regra)
         st.markdown(f"<div style='background-color:{cor};padding:10px;border-radius:5px'>{alerta_parenteses}</div>", unsafe_allow_html=True)
