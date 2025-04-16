@@ -208,8 +208,8 @@ with abas[1]:
                 if 'ID' not in resultado.columns:
                     resultado['ID'] = resultado.index
                 with st.expander(f"📄 {row['Título da Regra']} – {row['Projeto']}"):
-                    regra_formatada = row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace("
-", "<br>")
+                    regra_formatada = row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace('
+', '<br>')
                     st.markdown(f"""
                     <div style='background-color: #1e1e1e; border-left: 4px solid #3399ff; border-right: 4px solid #3399ff; padding: 15px; border-radius: 8px; margin-bottom: 10px; font-family: \"Proxima Nova\", sans-serif;'>
                         <strong style='color: #00ffff;'>Elaboração de regras linguística:</strong><br><br>
@@ -218,7 +218,7 @@ with abas[1]:
                     """, unsafe_allow_html=True)
                     st.markdown(f"**Analista:** {row['Analista']} | **Ferramenta:** {row['Ferramenta']} | **Data:** {row['Data']}")
                     if st.button(f"🗑️ Deletar regra", key=f"del_{idx}"):
-                        if st.confirm(f"Tem certeza que deseja excluir a regra: '{row['Título da Regra']}'?"):
+                        if st.radio("Tem certeza que deseja excluir esta regra?", ["Não", "Sim"], index=0, key=f"confirma_{idx}") == "Sim":
                             df = pd.read_csv(csv_path)
                             df = df.drop(resultado.index[idx])
                             df.to_csv(csv_path, index=False)
