@@ -134,18 +134,7 @@ st.markdown("""
 
 # Interface principal
 
-with abas[2]:
-    st.subheader("Upload de arquivos")
-    st.markdown("Faça o upload dos arquivos referentes aos campos abaixo.")
-    col_ref, col_txt = st.columns(2)
-    with col_ref:
-        ref_file = st.file_uploader("📚 Referências", type=["pdf", "txt", "docx"], key="ref")
-        if ref_file:
-            st.success(f"Arquivo de referência carregado: {ref_file.name}")
-    with col_txt:
-        pub_file = st.file_uploader("📝 Textos publicados", type=["pdf", "txt", "docx"], key="pub")
-        if pub_file:
-            st.success(f"Arquivo de texto publicado carregado: {pub_file.name}")
+
 st.download_button(
     label="📥 Baixar base de dados CSV",
     data=open(csv_path, "rb") if os.path.exists(csv_path) else b"",
@@ -153,7 +142,7 @@ st.download_button(
     mime="text/csv"
 )
 
-abas = st.tabs(["Cadastrar nova regra linguística", "Buscar por regra linguística", "Upload de arquivos"])
+abas = st.tabs(["Cadastrar nova regra linguística", "Buscar por regra linguística"])
 
 with abas[0]:
     st.subheader("Cadastrar nova regra linguística")
