@@ -133,8 +133,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Interface principal
-
-
 st.download_button(
     label="📥 Baixar base de dados CSV",
     data=open(csv_path, "rb") if os.path.exists(csv_path) else b"",
@@ -206,13 +204,12 @@ with abas[1]:
         else:
             for idx, row in resultado.iterrows():
                 with st.expander(f"📄 {row['Título da Regra']} – {row['Projeto']}"):
-                    st.markdown(f"""
+                    st.markdown("""
                         <div style='background-color: #1e1e1e; padding: 15px; border-radius: 8px; margin-bottom: 10px; font-family: "Proxima Nova", sans-serif;'>
                             <strong style='color: #00ffff;'>Elaboração de regras linguística:</strong><br><br>
-                            <code style='color: white;'>{row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace('
-', '<br>')}</code>
+                            <code style='color: white;'>""" + row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace('
+', '<br>') + """</code>
                         </div>
-                    """, unsafe_allow_html=True)
                     """, unsafe_allow_html=True)
                     st.markdown(f"**Analista:** {row['Analista']} | **Ferramenta:** {row['Ferramenta']} | **Data:** {row['Data']}")
                     st.markdown("**Abrir em:**")
