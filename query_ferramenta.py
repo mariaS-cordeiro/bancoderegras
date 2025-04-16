@@ -199,19 +199,14 @@ with abas[1]:
     st.subheader("Buscar por regra linguística")
     nome_projeto = st.text_input("Digite o nome da regra ou projeto para buscar")
 
-    if not nome_projeto:
-        resultado = pd.read_csv(csv_path)
-    else:
-        resultado = buscar_por_projeto(nome_projeto)
-        if isinstance(resultado, str):
-            st.info(resultado)
-        else:
+    resultado = buscar_por_projeto(nome_projeto) if nome_projeto else pd.read_csv(csv_path)
+        
             for idx, row in resultado.iterrows():
                 if 'ID' not in resultado.columns:
                     resultado['ID'] = resultado.index
                 with st.expander(f"📄 {row['Título da Regra']} – {row['Projeto']}"):
-                    regra_formatada = row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace("
-", "<br>")
+                    regra_formatada = row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace('
+', '<br>')
                     st.markdown(f"""
                     <div style='background-color: #1e1e1e; border-left: 4px solid #3399ff; border-right: 4px solid #3399ff; padding: 15px; border-radius: 8px; margin-bottom: 10px; font-family: \"Proxima Nova\", sans-serif;'>
                         <strong style='color: #00ffff;'>Elaboração de regras linguística:</strong><br><br>
