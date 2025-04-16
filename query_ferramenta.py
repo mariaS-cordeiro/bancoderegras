@@ -58,9 +58,7 @@ def checar_parenteses(texto):
 
 # Configuração da página
 st.set_page_config(page_title="Banco de dados de regras linguísticas", layout="wide")
-st.markdown("""
-<h1 style='font-family: \"Proxima Nova\", sans-serif; color: white; text-align: center; margin-top: 2rem;'>📚 Banco de dados de regras linguísticas</h1>
-""", unsafe_allow_html=True)
+
 
 # Controle de sessão
 if "autenticado" not in st.session_state:
@@ -88,13 +86,13 @@ if not st.session_state.autenticado:
     with col_login:
         usuario = st.text_input("Usuário", key="usuario")
         senha = st.text_input("Senha", type="password", key="senha")
-    if st.session_state.get("ctrl_enter_triggered", False):
-        if st.session_state.usuario == USUARIO_CORRETO and st.session_state.senha == SENHA_CORRETA:
+    if st.button("Entrar"):
+        if usuario == USUARIO_CORRETO and senha == SENHA_CORRETA:
             st.session_state.autenticado = True
             st.success("Login realizado com sucesso!")
         else:
             st.error("Usuário ou senha incorretos.")
-    st.markdown("<p style='color:gray; font-size: 14px;'>Pressione <strong>Ctrl + Enter</strong> para acessar.</p>", unsafe_allow_html=True)
+    
     st.stop()
 
 # Captura Ctrl+Enter para login automático
@@ -106,6 +104,11 @@ st.markdown("""
         }
     });
 </script>
+""", unsafe_allow_html=True)
+
+# Título principal
+st.markdown("""
+<h1 style='font-family: "Proxima Nova", sans-serif; color: white; text-align: center; margin-top: 2rem;'>📚 Banco de dados de regras linguísticas</h1>
 """, unsafe_allow_html=True)
 
 # Interface principal
