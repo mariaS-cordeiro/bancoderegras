@@ -59,6 +59,27 @@ def checar_parenteses(texto):
 # Configuração da página
 st.set_page_config(page_title="Banco de dados de regras linguísticas", layout="wide")
 
+# Aplicar fundo preto e estilização geral
+st.markdown("""
+    <style>
+        html, body, [class*="css"]  {
+            background-color: black !important;
+            color: white !important;
+            font-family: 'Proxima Nova', sans-serif !important;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: white !important;
+        }
+        textarea, input, .stButton > button, .stRadio > div {
+            font-size: 16px !important;
+            color: white !important;
+        }
+        .stTextInput > div > div > input {
+            background-color: #1e1e1e !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 
 # Controle de sessão
 if "autenticado" not in st.session_state:
@@ -66,8 +87,8 @@ if "autenticado" not in st.session_state:
 
 if not st.session_state.autenticado:
     st.markdown("""
-        <h1 style='font-family: "Proxima Nova", sans-serif; color: white;'>📚 Banco de dados de regras linguísticas</h1>
-    """, unsafe_allow_html=True)
+<h1 style='font-family: "Proxima Nova", sans-serif; color: white; text-align: center;'>📚 Banco de dados de regras linguísticas</h1>
+""", unsafe_allow_html=True)
     st.markdown("""
         <style>
         body {
@@ -108,7 +129,7 @@ st.markdown("""
 
 # Título principal
 st.markdown("""
-<h1 style='font-family: "Proxima Nova", sans-serif; color: white; text-align: center; margin-top: 2rem;'>📚 Banco de dados de regras linguísticas</h1>
+<h1 style='font-family: \"Proxima Nova\", sans-serif; color: white; text-align: center;'>📚 Banco de dados de regras linguísticas</h1>
 """, unsafe_allow_html=True)
 
 # Interface principal
@@ -183,7 +204,13 @@ with abas[1]:
         else:
             for idx, row in resultado.iterrows():
                 with st.expander(f"📄 {row['Título da Regra']} – {row['Projeto']}"):
-                    st.markdown(f"**Regra:** `{row['Regra']}`")
+                    st.markdown("""
+                        <div style='background-color: #1e1e1e; padding: 15px; border-radius: 8px; margin-bottom: 10px; font-family: "Proxima Nova", sans-serif;'>
+                            <strong style='color: #00ffff;'>Elaboração de regras linguística:</strong><br><br>
+                            <code style='color: white;'>""" + row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace('
+', '<br>') + """</code>
+                        </div>
+                    """, unsafe_allow_html=True)
                     st.markdown(f"**Analista:** {row['Analista']} | **Ferramenta:** {row['Ferramenta']} | **Data:** {row['Data']}")
                     st.markdown("**Abrir em:**")
 
