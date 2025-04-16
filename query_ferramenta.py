@@ -32,15 +32,17 @@ def salvar_csv(projeto, analista, titulo_regra, regra, ferramenta, data):
     st.success("Entrada salva com sucesso!")
 
 # Função para buscar por projeto
-def buscar_por_projeto(nome_projeto):
+def buscar_por_projeto(termo):
     if not os.path.exists(csv_path):
         return "Nenhum arquivo encontrado."
 
     df = pd.read_csv(csv_path)
-    df_filtro = df[df["Projeto"].str.contains(nome_projeto, case=False, na=False)]
+    cond_proj = df["Projeto"].str.contains(termo, case=False, na=False)
+    cond_regra = df["Regra"].str.contains(termo, case=False, na=False)
+    df_filtro = df[cond_proj | cond_regra]
 
     if df_filtro.empty:
-        return f"Nenhuma entrada encontrada para o projeto: {nome_projeto}"
+        return f"Nenhuma entrada encontrada para: {termo}"
     return df_filtro
 
 # Função de login
@@ -87,6 +89,12 @@ if not st.session_state.autenticado:
     st.stop()
 
 # Interface após login
+st.download_button(
+    label="📥 Baixar base de dados CSV",
+    data=open(csv_path, "rb"),
+    file_name="queries_linguisticas.csv",
+    mime="text/csv"
+)
 abas = st.tabs(["Cadastrar nova entrada", "Buscar por regra linguística"])
 
 with abas[0]:
@@ -132,7 +140,7 @@ with abas[1]:
 
                     conteudo_encoded = row['Regra'].replace(' ', '%20').replace('\n', '%0A')
                     bloco_nota_link = f"data:text/plain,{conteudo_encoded}"
-                    google_docs_link = f"https://docs.google.com/document/create?title={row['Título da Regra'].replace(' ', '%20')}"
+                    google_docs_link = f"https://drive.google.com/drive/folders/14PxmRK90jiYs2RfZsjrvqtHMyYiDEADY"
                     onedrive_link = "https://onedrive.live.com/edit.aspx"
 
                     st.markdown(f"- [📄 Baixar bloco de notas]({bloco_nota_link})")
