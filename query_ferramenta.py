@@ -223,9 +223,7 @@ with abas[1]:
                             <code style='color: white;'>{row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace('
 ', '<br>')}</code>
                         </div>
-                    """, unsafe_allow_html=True) + row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace('
-', '<br>') + """</code>
-                        </div>
+                    """, unsafe_allow_html=True)
                     """, unsafe_allow_html=True)
                     st.markdown(f"**Analista:** {row['Analista']} | **Ferramenta:** {row['Ferramenta']} | **Data:** {row['Data']}")
                     st.markdown("**Abrir em:**")
