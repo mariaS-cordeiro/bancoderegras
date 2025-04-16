@@ -82,12 +82,13 @@ if not st.session_state.autenticado:
     st.markdown("<h2 style='font-family: Proxima Nova; color: white;'>🔐 Acesso restrito</h2>", unsafe_allow_html=True)
     usuario = st.text_input("Usuário", key="usuario")
     senha = st.text_input("Senha", type="password", key="senha")
-    if st.session_state.get("usuario") and st.session_state.get("senha") and st.session_state.get("ctrl_enter_triggered", False):
-        if usuario == USUARIO_CORRETO and senha == SENHA_CORRETA:
+    if st.session_state.get("ctrl_enter_triggered", False):
+        if st.session_state.usuario == USUARIO_CORRETO and st.session_state.senha == SENHA_CORRETA:
             st.session_state.autenticado = True
             st.success("Login realizado com sucesso!")
         else:
             st.error("Usuário ou senha incorretos.")
+    st.markdown("<p style='color:gray; font-size: 14px;'>Pressione <strong>Ctrl + Enter</strong> para acessar.</p>", unsafe_allow_html=True)
     st.stop()
 
 # Captura Ctrl+Enter para login automático
