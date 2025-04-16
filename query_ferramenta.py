@@ -209,8 +209,8 @@ with abas[1]:
 
     for idx, row in resultado.iterrows():
         with st.expander(f"📄 {row['Título da Regra']} – {row['Projeto']}"):
-            regra_formatada = row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace("
-", "<br>")
+            regra_formatada = row['Regra'].replace('<', '&lt;').replace('>', '&gt;').replace('
+', '<br>')
             st.markdown(f"""
             <div style='background-color: #1e1e1e; border-left: 4px solid #3399ff; border-right: 4px solid #3399ff; padding: 15px; border-radius: 8px; margin-bottom: 10px; font-family: \"Proxima Nova\", sans-serif;'>
                 <strong style='color: #00ffff;'>Elaboração de regras linguística:</strong><br><br>
@@ -230,8 +230,8 @@ with abas[1]:
 
             st.markdown("**Abrir em:**")
 
-            conteudo_encoded = row['Regra'].replace(' ', '%20').replace("
-", "%0A")
+            conteudo_encoded = row['Regra'].replace(' ', '%20').replace('
+', '%0A')
             bloco_nota_link = f"data:text/plain,{conteudo_encoded}"
             google_docs_link = "https://drive.google.com/drive/folders/14PxmRK90jiYs2RfZsjrvqtHMyYiDEADY"
             onedrive_link = "https://onedrive.live.com/edit.aspx"
@@ -239,3 +239,4 @@ with abas[1]:
             st.markdown(f"- [📄 Baixar bloco de notas]({bloco_nota_link})")
             st.markdown(f"- [📝 Criar novo Google Docs com esse título]({google_docs_link})")
             st.markdown(f"- [☁️ Abrir OneDrive para colar]({onedrive_link})")
+
